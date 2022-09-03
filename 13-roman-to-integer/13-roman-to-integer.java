@@ -1,39 +1,26 @@
 class Solution {
-     public int romanToInt(String s) {
-        List<Integer> list = new ArrayList<>();
-        Map<Character, Integer> romanNum = getRomanMap();
-        char[] chars = s.toCharArray();
+public  int romanToInt (String s ){
+        Map<Character , Integer> romanMap = getRomanMap();
+        int length = s.length() -1 ;
 
-        Character curr = null;
-        if (s.length() == 1) {
-            list.add(romanNum.get(s.charAt(0)));
-        } else {
-            boolean isCalculated = false ;
-            for (char next : chars) {
-                if (isCalculated) {
-                    isCalculated = false ;
-                    curr = next;
-                    continue;
-                }
-                if (Objects.nonNull(curr)) {
-                    if (romanNum.get(curr) > romanNum.get(next)) {
-                        list.add(romanNum.get(curr));
-                    }else if (romanNum.get(curr) < romanNum.get(next)) {
-                        int n = romanNum.get(next) - romanNum.get(curr);
-                        isCalculated = true ;
-                        list.add(n);
-                    }else {
-                        list.add(romanNum.get(curr));
-                    }
-                }
-                curr = next;
+        int sum = 0 ;
+        if (s.length() == 1 ) sum+= romanMap.get(s.charAt(0));
+        for (int i = 0 ; i < length ; i++) {
+            int num1 = romanMap.get(s.charAt(i));
+            int num2 = romanMap.get(s.charAt(i+1));
+            if (num1 >= num2) {
+                sum+=num1 ;
+                if (i + 1 == length)  sum+=num2;
             }
+            else {
+                sum+= (num2 - num1);
+                if (i + 2 == length) sum+= romanMap.get(s.charAt(i+2));
+                i++;
 
-            if (romanNum.get(chars[chars.length - 1]) <= romanNum.get(chars[chars.length - 2])){
-                list.add(romanNum.get(chars[chars.length -1]));
             }
         }
-        return list.stream().mapToInt(i -> i).sum();
+
+        return sum;
     }
 
     static Map<Character, Integer> getRomanMap() {
