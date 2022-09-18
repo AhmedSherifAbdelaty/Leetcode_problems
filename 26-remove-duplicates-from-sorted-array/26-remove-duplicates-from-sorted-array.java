@@ -1,14 +1,13 @@
 class Solution {
     public int removeDuplicates(int[] nums) {
-      
-                   int track = 0, temp = -101;
-        for(int i = 0; i < nums.length; i++) {
-            if(nums[i] != temp) {
-                nums[track++] = nums[i];
+                int index = 0 ;
+        int duplicate = -1111 ;
+        for (int n : nums){
+            if (duplicate != n){
+                nums[index++] = n ;
+                duplicate = n ;
             }
-            temp = nums[i];
         }
-
-        return track;
+        return index;  
     }
 }
